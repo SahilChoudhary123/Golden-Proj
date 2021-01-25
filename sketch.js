@@ -5,20 +5,28 @@ const Body = Matter.Body;
 const Constraint = Matter.Constraint;
 
 var ground, tree;
-var slingshot, boy, platform;
+var slingshot, boy;
 var cons;
 var mango, mango1, mango2, mango3, mango4;
 var composite;
+var boyIMG, treeIMG;
 
+function preload(){
+  boyIMG = loadImage("Images/Images/boy.png");
+  treeIMG = loadImage("Images/Images/tree.png");
+}
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(1000, 650);
 	engine = Engine.create();
 	world = engine.world;
 
-	ground = new Ground(600,height,1200,20);
-	platform = new Ground(150, 650, 300, 170);
-  tree = new Tree(800, 275, 450, 450);
-  boy = new Boy(150, 515);
+	ground = new Ground();
+  tree = createSprite(775, 400);
+  tree.addImage(treeIMG);
+  tree.scale = 0.8;
+  boy = createSprite(160, 550);
+  boy.addImage(boyIMG);
+  boy.scale = 0.125;
 	stone = new Stone(150, 150);
 	cons = new SlingShot(stone.body, {x:150, y:50});
 
@@ -33,12 +41,8 @@ function draw() {
   background("white");
   Engine.update(engine);
   ground.display();
-  tree.display();
-  platform.display();
-  boy.display();
   stone.display();
   cons.display();
-  
   mango.display();
   mango1.display();
   mango2.display();
@@ -50,6 +54,7 @@ function draw() {
   Matter.Composite.add(world, mango2);
   Matter.Composite.add(world, mango3);
   Matter.Composite.add(world, mango4);
+  drawSprites();
 }
 
 function mouseDragged(){
